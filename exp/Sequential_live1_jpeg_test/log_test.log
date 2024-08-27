@@ -1,0 +1,86 @@
+2024/08/23 14:11 | hyper parameters
+note: 2 cards.
+dataset:[
+  test:[
+    ds_type: ImTestSet
+    ds_type_base: ImTestSet_base
+    ds_opts:[
+      gt_path: ../databaserelease2_live1/refimgs_jpeg/
+      lq_path: ../databaserelease2_live1/jpeg_qf10/
+      imgformat_gt: .bmp
+      imgformat_lq: .bmp
+      mean: [0.4785917320171006, 0.4539074400193108, 0.4084077439326025]
+      std: [0.2723496106124142, 0.26093942917177027, 0.2846553708356263]
+      dif_lqgt: None
+      max_num: 233
+      start_idx: 0
+      center_crop:[
+        if_crop: False
+        opts:[
+          h: 512
+          w: 512
+          ]
+        ]
+      padding:[
+        if_pad: False
+        opts:[
+          mul: None
+          ]
+        ]
+      split:[
+        if_split: True
+        opts:[
+          size_h: 256
+          size_w: 256
+          overlap_h: 16
+          overlap_w: 16
+          ]
+        ]
+      ]
+    ]
+  ]
+algorithm:[
+  name: SequentialAlgorithm
+  exp_name: Sequential_live1_jpeg_test
+  network:[
+    net:[
+      nf_in: 3
+      nf_base: 64
+      nlevel_step: [5, 5, 5, 5, 5, 5]
+      down_method: strideconv_NAF
+      up_method: pixelshuffler_w-conv
+      nf_out: 3
+      if_cicr: True
+      if_plus: False
+      if_residual: True
+      block_num_enc: [2, 2, 2, 10, 10]
+      block_num_dec: 2
+      window_size: 1
+      depths_swin: [6, 6]
+      num_heads: [4, 4]
+      mlp_ratio: 2
+      resi_connection: 1conv
+      init_type: default
+      comp_type: jpeg
+      ]
+    ]
+  test:[
+    if_save_im: True
+    if_return_each: True
+    ckp_load_path: exp/sequential/ckp_3990000.pt
+    criterion:[
+      PSNR:[
+        unit: dB
+        opts: None
+        ]
+      SSIM:[
+        unit: _
+        opts: None
+        ]
+      LPIPS:[
+        unit: _
+        opts: None
+        ]
+      ]
+    ]
+  ]
